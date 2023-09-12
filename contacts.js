@@ -6,14 +6,12 @@ const contactsPath = path.join(__dirname, "./db/contacts.json");
 
 async function listContacts() {
     const contacts = await fs.readFile(contactsPath, "utf-8")
-    const contactsParse = JSON.parse(contacts)
-    return contactsParse
+    return JSON.parse(contacts)
   }
   
 async function getContactById(contactId) {
     const contacts = await listContacts()
-    const result = contacts.find(contact => contact.id === contactId)
-    return result || null
+    return contacts.find(contact => contact.id === contactId) || null
   }
   
 async function removeContact(contactId) {
@@ -27,14 +25,14 @@ async function removeContact(contactId) {
     return result
   }
   
-async function addContact(name, email, phone) {
+async function newContact(name, email, phone) {
     const contacts = await listContacts();
-    const addedContact = {
+    const newContact = {
         id: nanoid(), name, email, phone
     }
     contacts.push(addedContact)
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2))
-    return addedContact
+    return newContact
   }
 
-module.exports = {addContact, listContacts, getContactById, removeContact}  
+module.exports = {newContact, listContacts, getContactById, removeContact}  
